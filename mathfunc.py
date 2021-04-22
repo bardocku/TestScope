@@ -214,7 +214,7 @@ class PlotNotebook(wx.Panel):
         pnl_sizer.Add(wx.StaticText(pnl, label='FFT'), pos=(0, 0), flag=wx.LEFT, border=10)
         pnl_sizer.Add(wx.StaticText(pnl, label='N samples'), pos=(3, 0), flag=wx.LEFT, border=10)
         pnl_sizer.Add(wx.StaticText(pnl, label='FRQ'), pos=(5, 0), flag=wx.LEFT, border=10)
-        pnl_sizer.Add(wx.StaticText(pnl, label='ST'), pos=(7, 0), flag=wx.LEFT, border=10)
+        # pnl_sizer.Add(wx.StaticText(pnl, label='ST'), pos=(7, 0), flag=wx.LEFT, border=10)
 
         meas_sizer.Add(wx.StaticText(meas_pnl, label='Maximum'), pos=(0, 0), flag=wx.LEFT, border=10)
         meas_sizer.Add(wx.StaticText(meas_pnl, label='Minimum'), pos=(1, 0), flag=wx.LEFT, border=10)
@@ -235,7 +235,7 @@ class PlotNotebook(wx.Panel):
         pnl_sizer.Add(self.txt0, pos=(1, 1), flag=wx.RIGHT, border=10)
         pnl_sizer.Add(self.txt1, pos=(4, 1), flag=wx.RIGHT, border=10)
         pnl_sizer.Add(self.txt2, pos=(6, 1), flag=wx.RIGHT, border=10)
-        pnl_sizer.Add(self.txt3, pos=(8, 1), flag=wx.RIGHT, border=10)
+        # pnl_sizer.Add(self.txt3, pos=(8, 1), flag=wx.RIGHT, border=10)
         pnl_sizer.Add(self.txt4, pos=(10, 1), flag=wx.RIGHT, border=10)
 
         meas_sizer.Add(self.vmax, pos=(0, 1), flag=wx.RIGHT, border=10)
@@ -253,33 +253,39 @@ class PlotNotebook(wx.Panel):
 
         chnl_sizer.Add(self.chnlid, pos=(0, 1), flag=wx.ALL | wx.EXPAND, border=10)
         
-        btn_sizer.Add(self.autoind, pos=(0, 1), flag=wx.ALL | wx.EXPAND, border=10)
-        btn_sizer.Add(self.smplsts, pos=(0, 1), flag=wx.ALL | wx.EXPAND, border=10)
+        btn_sizer.Add(self.autoind, pos=(1, 1), flag=wx.ALL | wx.EXPAND, border=10)
+        btn_sizer.Add(self.smplsts, pos=(2, 1), flag=wx.ALL | wx.EXPAND, border=10)
 
         # Elemementy interaktywne
         pnl_sizer.Add(self.fslider0, pos=(1, 0), flag=wx.ALL | wx.EXPAND, border=1)
         pnl_sizer.Add(self.fslider1, pos=(4, 0), flag=wx.ALL | wx.EXPAND, border=1)
         pnl_sizer.Add(self.fslider2, pos=(6, 0), flag=wx.ALL | wx.EXPAND, border=1)
-        pnl_sizer.Add(self.fslider3, pos=(8, 0), flag=wx.ALL | wx.EXPAND, border=1)
+        # pnl_sizer.Add(self.fslider3, pos=(8, 0), flag=wx.ALL | wx.EXPAND, border=1)
         pnl_sizer.Add(self.button, pos=(2, 0), flag=wx.ALL | wx.EXPAND, border=1)
         pnl_sizer.Add(self.button1, pos=(9, 0), flag=wx.ALL | wx.EXPAND, border=1)
         pnl_sizer.Add(self.button2, pos=(10, 0), flag=wx.ALL | wx.EXPAND, border=1)
 
-        chnl_sizer.Add(self.btnch1, pos=(0, 0), flag=wx.SHAPED, border=10)
-        chnl_sizer.Add(self.btnch2, pos=(0, 2), flag=wx.SHAPED, border=10)
+        chnl_sizer.Add(self.btnch1, pos=(0, 0), flag=wx.ALL | wx.EXPAND, border=10)
+        chnl_sizer.Add(self.btnch2, pos=(0, 2), flag=wx.ALL | wx.EXPAND, border=10)
         
-        btn_sizer.Add(self.btnp1, pos=(0, 2), flag=wx.SHAPED, border=10)
-        btn_sizer.Add(self.btnm1, pos=(0, 2), flag=wx.SHAPED, border=10)
-        btn_sizer.Add(self.btnat, pos=(0, 2), flag=wx.SHAPED, border=10)
+        btn_sizer.Add(self.btnp1, pos=(2, 0), flag=wx.ALL | wx.EXPAND, border=10)
+        btn_sizer.Add(self.btnm1, pos=(2, 2), flag=wx.ALL | wx.EXPAND, border=10)
+        btn_sizer.Add(self.btnat, pos=(1, 0), flag=wx.ALL | wx.EXPAND, border=10)
 
         chnl_sizer.AddGrowableCol(0)
         chnl_sizer.SetMinSize(200, 100)
         chnl_pnl.SetSizer(chnl_sizer)
 
+        btn_sizer.AddGrowableCol(0)
+        btn_sizer.SetMinSize(200, 100)
+        btn_pnl.SetSizer(btn_sizer)
+
         meas_sizer.AddGrowableCol(0)
         meas_sizer.SetMinSize(200, 100)
         meas_pnl.SetSizer(meas_sizer)
+
         pnl_sizer.Add(chnl_pnl, pos=(13, 0), flag=wx.ALL | wx.EXPAND)
+        pnl_sizer.Add(btn_pnl, pos=(7, 0), flag=wx.ALL | wx.EXPAND)
         pnl_sizer.Add(meas_pnl, pos=(12, 0), flag=wx.ALL | wx.EXPAND)
 
         pnl_sizer.AddGrowableCol(0)

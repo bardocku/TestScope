@@ -101,9 +101,9 @@ def demo():
     readMemory()
 	
 	# Przekazanie danych do funkcji FFT
+    
     # fft_ch = FFT_Func(yx, N, T, sd0)
     
-
     # Metoda aktualizacji pramatrów sygnału
     def ValAct(sig):
         y_meas = Meas(sig)
