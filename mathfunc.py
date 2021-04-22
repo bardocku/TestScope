@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 import wx
 import matplotlib as mpl
@@ -160,24 +160,29 @@ class PlotNotebook(wx.Panel):
         pnl = wx.Panel(self)
         meas_pnl = wx.Panel(self)
         chnl_pnl = wx.Panel(self)
+        btn_pnl = wx.Panel(self)
 
         # Tworzenie elementów interfejsu
         self.button = wx.Button(self, wx.ID_ANY, 'Apply', (10, 10))
-        self.button1 = wx.Button(self, wx.ID_ANY, 'Change signal', (10, 10))
+        self.button1 = wx.Button(self, wx.ID_ANY, 'Run', (10, 10))
         self.button2 = wx.Button(self, wx.ID_ANY, 'CH2 Enable')
         self.btnch1 = wx.Button(chnl_pnl, wx.ID_ANY, 'CH1')
         self.btnch2 = wx.Button(chnl_pnl, wx.ID_ANY, 'CH2')
+        self.btnp1 = wx.Button(btn_pnl, wx.ID_ANY, '+')
+        self.btnm1 = wx.Button(btn_pnl, wx.ID_ANY, '-')
+        self.btnat = wx.Button(btn_pnl, wx.ID_ANY, 'Auto')
+        
 
-        self.fslider0 = FloatSlider(self, -1, 1, 1, 100, 1)
-        self.fslider1 = FloatSlider(self, -1, 1, 1, 100, 1)
-        self.fslider2 = FloatSlider(self, -1, 1, 1, 100, 1)
-        self.fslider3 = FloatSlider(self, -1, 1, 1, 3, 1)
+        self.fslider0 = FloatSlider(self, -1, 50, 1, 100, 1)
+        self.fslider1 = FloatSlider(self, -1, 4096, 4096, 8192, 16)
+        self.fslider2 = FloatSlider(self, -1, 0, 0, 3, 1)
+        self.fslider3 = FloatSlider(self, -1, 0, 0, 7, 1)
 
-        self.txt0 = wx.StaticText(pnl, label='1')
-        self.txt1 = wx.StaticText(pnl, label='1')
+        self.txt0 = wx.StaticText(pnl, label='50')
+        self.txt1 = wx.StaticText(pnl, label='4096')
         self.txt2 = wx.StaticText(pnl, label='1')
         self.txt3 = wx.StaticText(pnl, label='1')
-        self.txt4 = wx.StaticText(pnl, label='0')
+        self.txt4 = wx.StaticText(self, label='0')
 
         self.vmin = wx.StaticText(meas_pnl, label='1')
         self.vmax = wx.StaticText(meas_pnl, label='1')
@@ -193,17 +198,21 @@ class PlotNotebook(wx.Panel):
         self.freq = wx.StaticText(meas_pnl, label='0 Hz')
 
         self.chnlid = wx.StaticText(chnl_pnl, label='CH1')
+        
+        self.autoind = wx.StaticText(btn_pnl, label='OFF')
+        self.smplsts = wx.StaticText(btn_pnl, label='0')
 
         # Deklaracja układu elementów
         meas_sizer = wx.GridBagSizer(1, 1)
         pnl_sizer = wx.GridBagSizer(1, 1)
         chnl_sizer = wx.GridBagSizer(1, 1)
+        btn_sizer = wx.GridBagSizer(1, 1)
 
         # Rozmieszczanie elementów w danych panelach
 
         # Elementy tekstowe
         pnl_sizer.Add(wx.StaticText(pnl, label='FFT'), pos=(0, 0), flag=wx.LEFT, border=10)
-        pnl_sizer.Add(wx.StaticText(pnl, label='AMP'), pos=(3, 0), flag=wx.LEFT, border=10)
+        pnl_sizer.Add(wx.StaticText(pnl, label='N samples'), pos=(3, 0), flag=wx.LEFT, border=10)
         pnl_sizer.Add(wx.StaticText(pnl, label='FRQ'), pos=(5, 0), flag=wx.LEFT, border=10)
         pnl_sizer.Add(wx.StaticText(pnl, label='ST'), pos=(7, 0), flag=wx.LEFT, border=10)
 
@@ -219,13 +228,15 @@ class PlotNotebook(wx.Panel):
         meas_sizer.Add(wx.StaticText(meas_pnl, label='Pos Duty'), pos=(9, 0), flag=wx.LEFT, border=10)
         meas_sizer.Add(wx.StaticText(meas_pnl, label='Neg Duty'), pos=(10, 0), flag=wx.LEFT, border=10)
         meas_sizer.Add(wx.StaticText(meas_pnl, label='Freq'), pos=(11, 0), flag=wx.LEFT, border=10)
+        
+        btn_sizer.Add(wx.StaticText(btn_pnl, label='Auto Fq search'), pos=(0, 0), flag=wx.LEFT, border=10)
 
         # Elementy tekstowe zmienne
         pnl_sizer.Add(self.txt0, pos=(1, 1), flag=wx.RIGHT, border=10)
         pnl_sizer.Add(self.txt1, pos=(4, 1), flag=wx.RIGHT, border=10)
         pnl_sizer.Add(self.txt2, pos=(6, 1), flag=wx.RIGHT, border=10)
         pnl_sizer.Add(self.txt3, pos=(8, 1), flag=wx.RIGHT, border=10)
-        pnl_sizer.Add(self.txt4, pos=(11, 1), flag=wx.RIGHT, border=10)
+        pnl_sizer.Add(self.txt4, pos=(10, 1), flag=wx.RIGHT, border=10)
 
         meas_sizer.Add(self.vmax, pos=(0, 1), flag=wx.RIGHT, border=10)
         meas_sizer.Add(self.vmin, pos=(1, 1), flag=wx.RIGHT, border=10)
@@ -241,6 +252,9 @@ class PlotNotebook(wx.Panel):
         meas_sizer.Add(self.freq, pos=(11, 1), flag=wx.RIGHT, border=10)
 
         chnl_sizer.Add(self.chnlid, pos=(0, 1), flag=wx.ALL | wx.EXPAND, border=10)
+        
+        btn_sizer.Add(self.autoind, pos=(0, 1), flag=wx.ALL | wx.EXPAND, border=10)
+        btn_sizer.Add(self.smplsts, pos=(0, 1), flag=wx.ALL | wx.EXPAND, border=10)
 
         # Elemementy interaktywne
         pnl_sizer.Add(self.fslider0, pos=(1, 0), flag=wx.ALL | wx.EXPAND, border=1)
@@ -249,10 +263,14 @@ class PlotNotebook(wx.Panel):
         pnl_sizer.Add(self.fslider3, pos=(8, 0), flag=wx.ALL | wx.EXPAND, border=1)
         pnl_sizer.Add(self.button, pos=(2, 0), flag=wx.ALL | wx.EXPAND, border=1)
         pnl_sizer.Add(self.button1, pos=(9, 0), flag=wx.ALL | wx.EXPAND, border=1)
-        pnl_sizer.Add(self.button2, pos=(11, 0), flag=wx.EXPAND, border=1)
+        pnl_sizer.Add(self.button2, pos=(10, 0), flag=wx.ALL | wx.EXPAND, border=1)
 
         chnl_sizer.Add(self.btnch1, pos=(0, 0), flag=wx.SHAPED, border=10)
         chnl_sizer.Add(self.btnch2, pos=(0, 2), flag=wx.SHAPED, border=10)
+        
+        btn_sizer.Add(self.btnp1, pos=(0, 2), flag=wx.SHAPED, border=10)
+        btn_sizer.Add(self.btnm1, pos=(0, 2), flag=wx.SHAPED, border=10)
+        btn_sizer.Add(self.btnat, pos=(0, 2), flag=wx.SHAPED, border=10)
 
         chnl_sizer.AddGrowableCol(0)
         chnl_sizer.SetMinSize(200, 100)
@@ -324,3 +342,16 @@ class FFT_Func:
         zy = np.ones(len(self.FFT_Freq())) * (2.0 / self.N * np.abs(self.FFT_Y()[self.FFT_Freq()]))
         # s = np.zeros(len(z))
         return zy
+
+def period(freq):
+    y = {
+        0: 1/100000,
+        1: 1/10000,
+        2: 1/5000,
+        3: 1/1000,
+        4: 1/500,
+        5: 1/1000,
+        6: 1/500,
+        7: 1/100
+    }
+    return y.get(freq)
